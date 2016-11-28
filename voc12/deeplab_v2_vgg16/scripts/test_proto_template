@@ -6,8 +6,8 @@ layer {
     phase: TEST
   }
   mat_write_param {
-    prefix: %s
-    source: %s
+    prefix: "%s"
+    source: "%s"
     strip: 0
     period: 1
   }
