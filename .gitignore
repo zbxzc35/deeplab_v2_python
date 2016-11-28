@@ -1,3 +1,9 @@
+# Python
 *.pyc
+
+# Caffe model
+*.caffemodel
+
+# Mac issuse
 *.DS_Store
 ._*
