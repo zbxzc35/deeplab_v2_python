@@ -303,24 +303,17 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
             n.label_shrink,
             ignore_label=255
         )
+        with open('train_proto_template') as f:
+            template = f.read()
+        proto = str(n.to_proto()) + template
     else:
         n.fc8_interp = L.Interp(
             n.fc8,
             zoom_factor=8
         )
-        n.fc8_mat = L.MatWrite(
-            n.fc8_interp,
-            include=dict(
-                phase=1
-            ),
-            prefix=prefix,
-            source=source_id,
-            strip=0,
-            period=1
-        )
-    
-    # Ignore
-    n.silence = L.Silence(n.data_dim, n.label)
+        with open('test_proto_template') as f:
+            template = f.read()
+        proto = str(n.to_proto()) + template % (prefix, source_id)
     
     with open(proto_path, 'w') as f:
-        f.write(str(n.to_proto()))
+        f.write(proto)
