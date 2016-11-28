@@ -303,7 +303,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
             n.label_shrink,
             ignore_label=255
         )
-        with open('train_proto_template') as f:
+        with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/deeplab_v2_vgg16/scripts/train_proto_template') as f:
             template = f.read()
         proto = str(n.to_proto()) + template
     else:
@@ -311,7 +311,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
             n.fc8,
             zoom_factor=8
         )
-        with open('test_proto_template') as f:
+        with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/deeplab_v2_vgg16/scripts/test_proto_template') as f:
             template = f.read()
         proto = str(n.to_proto()) + template % (prefix, source_id)
     
