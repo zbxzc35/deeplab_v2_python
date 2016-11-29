@@ -47,7 +47,7 @@ deeplab_vgg16(
     TEST_LIST,
     NUM_LABELS,
     1,
-    FEATURE_DIR,
+    FEATURE_DIR+'/',
     os.path.join(EXP, 'list', '{}_id.txt'.format(TEST_SET))
 )
 
