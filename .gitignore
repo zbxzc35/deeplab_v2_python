@@ -3,7 +3,11 @@
 
 # Caffe model
 *.caffemodel
+*.solverstate
 
 # Mac issuse
 *.DS_Store
 ._*
+
+# Features
+*/features*/*
