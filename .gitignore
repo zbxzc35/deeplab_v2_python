@@ -11,3 +11,6 @@
 
 # Features
 */features*/*
+
+# IPython notebook
+.ipynb_checkpoints
