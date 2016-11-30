@@ -5,3 +5,5 @@ build
 
 pydensecrf/eigen.cpp
 pydensecrf/densecrf.cpp
+
+*.pyc
