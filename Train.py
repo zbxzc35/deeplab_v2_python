@@ -9,7 +9,7 @@ DATA_ROOT = '/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012'
 
 # Specify model name to train
 ########### voc12 ###########
-NET_ID = 'deeplab_v2_vgg16'
+NET_ID = 'deeplab_v2_large_scoremap'
 import setproctitle
 setproctitle.setproctitle(NET_ID)
 DEV_ID = int(sys.argv[1])
