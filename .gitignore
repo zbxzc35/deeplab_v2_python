@@ -14,3 +14,6 @@
 
 # IPython notebook
 .ipynb_checkpoints
+
+# ZIP
+*.zip
