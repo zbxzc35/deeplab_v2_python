@@ -854,7 +854,7 @@ layer {
     phase: TEST
   }
   mat_write_param {
-    prefix: "/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/features/deeplab_v2_vgg16/val/fc8/"
+    prefix: "/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/features/deeplab_v2_large_scoremap/val/fc8/"
     source: "/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/list/val_id.txt"
     strip: 0
     period: 1

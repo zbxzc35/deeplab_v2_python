@@ -17,7 +17,7 @@ EXP = '/home/wuhuikai/Segmentation/Deeplab_v2/exper'
 post_folder = 'post_none'
 
 testset = 'val'
-output_mat_folder = os.path.join(EXP, 'voc12/features/deeplab_v2_vgg16/{}/fc8'.format(testset))
+output_mat_folder = os.path.join(EXP, 'voc12/features/deeplab_v2_large_scoremap/{}/fc8'.format(testset))
 save_root_folder = os.path.join(output_mat_folder, post_folder)
 print 'Saving to %s' % save_root_folder
 

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-FEATURE_DIR = '/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/features/deeplab_v2_vgg16/val/fc8'
+FEATURE_DIR = '/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/features/deeplab_v2_large_scoremap/val/fc8'
 SEG_ROOT = '/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012'
 IMAGE_DIR = SEG_ROOT + '/JPEGImages'
 TESTSET = 'val'
@@ -10,15 +10,15 @@ NUM_LABELS = 21
 MAX_ITER=10
 
 Bi_W=4
-Bi_X_STD=49
-Bi_Y_STD=49
-Bi_R_STD=5
-Bi_G_STD=5 
-Bi_B_STD=5
+Bi_X_STD=65
+Bi_Y_STD=65
+Bi_R_STD=3
+Bi_G_STD=3 
+Bi_B_STD=3
 
-POS_W=3
-POS_X_STD=3
-POS_Y_STD=3
+POS_W=2
+POS_X_STD=2
+POS_Y_STD=2
 
 
 # #######################################
