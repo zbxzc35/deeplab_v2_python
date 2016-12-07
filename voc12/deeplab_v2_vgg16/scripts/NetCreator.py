@@ -105,17 +105,17 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     # Pool 1
     n.conv1_1, n.relu1_1 = conv_relu(n.data, 64)
     n.conv1_2, n.relu1_2 = conv_relu(n.relu1_1, 64)
-    n.pool1 = max_pool(n.relu1_2)
+    n.pool1 = max_pool(n.relu1_2) # 3
     
     # Pool 2
-    n.conv2_1, n.relu2_1 = conv_relu(n.pool1, 128)
-    n.conv2_2, n.relu2_2 = conv_relu(n.relu2_1, 128)
-    n.pool2 = max_pool(n.relu2_2)
+    n.conv2_1, n.relu2_1 = conv_relu(n.pool1, 128) # 7
+    n.conv2_2, n.relu2_2 = conv_relu(n.relu2_1, 128) # 11
+    n.pool2 = max_pool(n.relu2_2) # 15
     
     # Pool 3
-    n.conv3_1, n.relu3_1 = conv_relu(n.pool2, 256)
-    n.conv3_2, n.relu3_2 = conv_relu(n.relu3_1, 256)
-    n.conv3_3, n.relu3_3 = conv_relu(n.relu3_2, 256)
+    n.conv3_1, n.relu3_1 = conv_relu(n.pool2, 256) # 23
+    n.conv3_2, n.relu3_2 = conv_relu(n.relu3_1, 256) # 31
+    n.conv3_3, n.relu3_3 = conv_relu(n.relu3_2, 256) # 39
     n.pool3 = max_pool(n.relu3_3)
     
     # Pool 4
