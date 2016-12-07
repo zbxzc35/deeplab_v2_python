@@ -1,5 +1,4 @@
 # coding: utf-8
-import numpy as np
 
 import sys
 sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/deeplab-public-ver2/python/')
@@ -26,7 +25,7 @@ os.environ['GLOG_log_dir'] = LOG_DIR
 ## Training #1 (on train_aug)
 
 LIST_DIR = os.path.join(EXP, 'list')
-TRAIN_SET = 'train_aug_small'
+TRAIN_SET = 'train_aug'
 MODEL = os.path.join(MODEL_DIR, 'save.caffemodel')
 
 print 'Training net {}/{}'.format(EXP, NET_ID)
@@ -43,27 +42,18 @@ deeplab_vgg16(
     NUM_LABELS
 )
 
+from SolverCreator import create_solver
+SOLVER_NAME = os.path.join(CONFIG_DIR, 'solver_{}.prototxt'.format(TRAIN_SET))
+create_solver(
+    SOLVER_NAME,
+    NET_NAME,
+    os.path.join(MODEL_DIR, 'train')
+)
+
 import caffe
 caffe.set_device(DEV_ID)
 caffe.set_mode_gpu()
 
-for i in xrange(100):
-    lr = 10 ** np.random.uniform(-1, -5)
-    momentum = np.random.choice([0.5, 0.9, 0.95, 0.99])
-    from SolverCreator import create_solver
-    SOLVER_NAME = os.path.join(CONFIG_DIR, 'solver_{}.prototxt'.format(TRAIN_SET))
-    create_solver(
-        SOLVER_NAME,
-        NET_NAME,
-        os.path.join(MODEL_DIR, 'train'),
-        base_lr = lr,
-        momentum = momentum,
-        weight_decay = 0
-    )
-
-    print "Param: lr = {}, momentum = {}".format(lr, momentum) 
-
-    solver = caffe.SGDSolver(SOLVER_NAME)
-    solver.net.copy_from(MODEL)
-
-    solver.step(200)
+solver = caffe.SGDSolver(SOLVER_NAME)
+solver.net.copy_from(MODEL)
+solver.step(40000)

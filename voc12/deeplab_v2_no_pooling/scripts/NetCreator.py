@@ -107,29 +107,27 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=5
     n.conv1_2, n.relu1_2 = conv_relu(n.relu1_1, 64)
     
     # Pool 2
-    n.conv2_1, n.relu2_1 = conv_relu(n.relu1_2, 64, pad=2, dilation=2)
-    n.conv2_2, n.relu2_2 = conv_relu(n.relu2_1, 64)
+    n.conv2_1, n.relu2_1 = conv_relu(n.relu1_2, 64, pad=3, dilation=3) # + 2 + 2*2
+    n.conv2_2, n.relu2_2 = conv_relu(n.relu2_1, 64, pad=2, dilation=2) # + 2*2
     
     # Pool 3
-    n.conv3_1, n.relu3_1 = conv_relu(n.relu2_2, 64, pad=2, dilation=2)
-    n.conv3_2, n.relu3_2 = conv_relu(n.relu3_1, 64)
-    n.conv3_3, n.relu3_3 = conv_relu(n.relu3_2, 64)
+    n.conv3_1, n.relu3_1 = conv_relu(n.relu2_2, 64, pad=6, dilation=6) # + 2*2 + 4*2
+    n.conv3_2, n.relu3_2 = conv_relu(n.relu3_1, 64, pad=4, dilation=4) # + 4*2
+    n.conv3_3, n.relu3_3 = conv_relu(n.relu3_2, 64, pad=4, dilation=4) # + 4*2
     
     # Pool 4
-    n.conv4_1, n.relu4_1 = conv_relu(n.relu3_3, 64, pad=2, dilation=2)
-    n.conv4_2, n.relu4_2 = conv_relu(n.relu4_1, 64)
-    n.conv4_3, n.relu4_3 = conv_relu(n.relu4_2, 64)
-    n.pool4 = max_pool(n.relu4_3, stride=1)
+    n.conv4_1, n.relu4_1 = conv_relu(n.relu3_3, 64, pad=12, dilation=12) # + 4*2 + 8*2
+    n.conv4_2, n.relu4_2 = conv_relu(n.relu4_1, 64, pad=8, dilation=8) # + 8*2
+    n.conv4_3, n.relu4_3 = conv_relu(n.relu4_2, 64, pad=8, dilation=8) # + 8*2
     
     # Pool 5
-    n.conv5_1, n.relu5_1 = conv_relu(n.pool4, 64, pad=2, dilation=2)
-    n.conv5_2, n.relu5_2 = conv_relu(n.relu5_1, 64, pad=2, dilation=2)
-    n.conv5_3, n.relu5_3 = conv_relu(n.relu5_2, 64, pad=2, dilation=2)
-    n.pool5 = max_pool(n.relu5_3, stride=1)
+    n.conv5_1, n.relu5_1 = conv_relu(n.conv4_3, 64, pad=24, dilation=24) # + 8*2 + 16*2
+    n.conv5_2, n.relu5_2 = conv_relu(n.relu5_1, 64, pad=16, dilation=16) # + 16*2
+    n.conv5_3, n.relu5_3 = conv_relu(n.relu5_2, 64, pad=16, dilation=16) # + 16*2
     
     # ### hole = 6
     # fc 6
-    n.fc6_1, n.relu6_1 = conv_relu(n.pool5, 64, pad=6, dilation=6)
+    n.fc6_1, n.relu6_1 = conv_relu(n.conv5_3, 64, pad=112, dilation=112)
     n.drop6_1 = drop_out(n.relu6_1)
     
     # fc 7
@@ -163,7 +161,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=5
     
     # ### hole = 12
     # fc 6
-    n.fc6_2, n.relu6_2 = conv_relu(n.pool5, 64, pad=12, dilation=12)
+    n.fc6_2, n.relu6_2 = conv_relu(n.conv5_3, 64, pad=208, dilation=208)
     n.drop6_2 = drop_out(n.relu6_2)
     
     # fc 7
@@ -197,7 +195,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=5
 
     # ### hole = 18
     # fc 6
-    n.fc6_3, n.relu6_3 = conv_relu(n.pool5, 64, pad=18, dilation=18)
+    n.fc6_3, n.relu6_3 = conv_relu(n.conv5_3, 64, pad=304, dilation=304)
     n.drop6_3 = drop_out(n.relu6_3)
     
     # fc 7
@@ -231,7 +229,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=5
 
     # ### hole = 24
     # fc 6
-    n.fc6_4, n.relu6_4 = conv_relu(n.pool5, 64, pad=24, dilation=24)
+    n.fc6_4, n.relu6_4 = conv_relu(n.conv5_3, 64, pad=400, dilation=400)
     n.drop6_4 = drop_out(n.relu6_4)
     
     # fc 7

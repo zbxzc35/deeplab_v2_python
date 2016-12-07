@@ -2,12 +2,12 @@ train_net: "/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/deeplab_v2_no_poo
 
 lr_policy: "poly"
 power: 0.9
-base_lr: 0.001
+base_lr: 0.00456856079647
 
 average_loss: 20
 display: 20
 max_iter: 20000
-momentum: 0.9
+momentum: 0.5
 weight_decay: 0
 
 snapshot: 20000

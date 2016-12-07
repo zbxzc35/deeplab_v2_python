@@ -9,14 +9,14 @@ layer {
   }
   transform_param {
     mirror: true
-    crop_size: 161
+    crop_size: 321
     mean_value: 104.008
     mean_value: 116.669
     mean_value: 122.675
   }
   image_data_param {
     source: "/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/list/train_aug_small.txt"
-    batch_size: 1
+    batch_size: 5
     shuffle: true
     root_folder: "/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012"
     label_type: PIXEL
@@ -90,7 +90,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 128
+    num_output: 64
     pad: 2
     kernel_size: 3
     stride: 1
@@ -117,7 +117,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 128
+    num_output: 64
     pad: 1
     kernel_size: 3
     stride: 1
@@ -144,7 +144,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 256
+    num_output: 64
     pad: 2
     kernel_size: 3
     stride: 1
@@ -171,7 +171,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 256
+    num_output: 64
     pad: 1
     kernel_size: 3
     stride: 1
@@ -198,7 +198,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 256
+    num_output: 64
     pad: 1
     kernel_size: 3
     stride: 1
@@ -225,7 +225,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 512
+    num_output: 64
     pad: 2
     kernel_size: 3
     stride: 1
@@ -252,7 +252,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 512
+    num_output: 64
     pad: 1
     kernel_size: 3
     stride: 1
@@ -279,7 +279,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 512
+    num_output: 64
     pad: 1
     kernel_size: 3
     stride: 1
@@ -318,7 +318,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 512
+    num_output: 64
     pad: 2
     kernel_size: 3
     stride: 1
@@ -345,7 +345,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 512
+    num_output: 64
     pad: 2
     kernel_size: 3
     stride: 1
@@ -372,7 +372,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 512
+    num_output: 64
     pad: 2
     kernel_size: 3
     stride: 1
@@ -411,7 +411,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 1024
+    num_output: 64
     pad: 6
     kernel_size: 3
     stride: 1
@@ -447,7 +447,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 1024
+    num_output: 64
     pad: 0
     kernel_size: 1
     stride: 1
@@ -509,7 +509,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 1024
+    num_output: 64
     pad: 12
     kernel_size: 3
     stride: 1
@@ -545,7 +545,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 1024
+    num_output: 64
     pad: 0
     kernel_size: 1
     stride: 1
@@ -607,7 +607,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 1024
+    num_output: 64
     pad: 18
     kernel_size: 3
     stride: 1
@@ -643,7 +643,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 1024
+    num_output: 64
     pad: 0
     kernel_size: 1
     stride: 1
@@ -705,7 +705,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 1024
+    num_output: 64
     pad: 24
     kernel_size: 3
     stride: 1
@@ -741,7 +741,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 1024
+    num_output: 64
     pad: 0
     kernel_size: 1
     stride: 1
