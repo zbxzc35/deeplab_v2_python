@@ -13,7 +13,7 @@ layer {
   }
   image_data_param {
     source: "/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/list/train_aug.txt"
-    batch_size: 1
+    batch_size: 10
     shuffle: true
     root_folder: "/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012"
     label_type: PIXEL
@@ -74,9 +74,21 @@ layer {
   top: "conv1_2"
 }
 layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1_2"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+    pad: 1
+  }
+}
+layer {
   name: "conv2_1"
   type: "Convolution"
-  bottom: "conv1_2"
+  bottom: "pool1"
   top: "conv2_1"
   param {
     lr_mult: 1
@@ -87,11 +99,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 2
+    num_output: 128
+    pad: 1
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 1
   }
 }
 layer {
@@ -114,7 +126,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 128
     pad: 1
     kernel_size: 3
     stride: 1
@@ -128,9 +140,21 @@ layer {
   top: "conv2_2"
 }
 layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2_2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+    pad: 1
+  }
+}
+layer {
   name: "conv3_1"
   type: "Convolution"
-  bottom: "conv2_2"
+  bottom: "pool2"
   top: "conv3_1"
   param {
     lr_mult: 1
@@ -141,11 +165,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 2
+    num_output: 256
+    pad: 1
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 1
   }
 }
 layer {
@@ -168,7 +192,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 256
     pad: 1
     kernel_size: 3
     stride: 1
@@ -195,7 +219,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 256
     pad: 1
     kernel_size: 3
     stride: 1
@@ -209,9 +233,21 @@ layer {
   top: "conv3_3"
 }
 layer {
+  name: "pool3"
+  type: "Pooling"
+  bottom: "conv3_3"
+  top: "pool3"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 1
+    pad: 1
+  }
+}
+layer {
   name: "conv4_1"
   type: "Convolution"
-  bottom: "conv3_3"
+  bottom: "pool3"
   top: "conv4_1"
   param {
     lr_mult: 1
@@ -222,7 +258,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 512
     pad: 2
     kernel_size: 3
     stride: 1
@@ -249,11 +285,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 1
+    num_output: 512
+    pad: 2
     kernel_size: 3
     stride: 1
-    dilation: 1
+    dilation: 2
   }
 }
 layer {
@@ -276,11 +312,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 1
+    num_output: 512
+    pad: 2
     kernel_size: 3
     stride: 1
-    dilation: 1
+    dilation: 2
   }
 }
 layer {
@@ -315,11 +351,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 2
+    num_output: 512
+    pad: 4
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 4
   }
 }
 layer {
@@ -342,11 +378,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 2
+    num_output: 512
+    pad: 4
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 4
   }
 }
 layer {
@@ -369,11 +405,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 2
+    num_output: 512
+    pad: 4
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 4
   }
 }
 layer {
@@ -408,11 +444,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 6
+    num_output: 1024
+    pad: 24
     kernel_size: 3
     stride: 1
-    dilation: 6
+    dilation: 24
   }
 }
 layer {
@@ -444,7 +480,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 1024
     pad: 0
     kernel_size: 1
     stride: 1
@@ -506,11 +542,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 12
+    num_output: 1024
+    pad: 48
     kernel_size: 3
     stride: 1
-    dilation: 12
+    dilation: 48
   }
 }
 layer {
@@ -542,7 +578,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 1024
     pad: 0
     kernel_size: 1
     stride: 1
@@ -604,11 +640,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 18
+    num_output: 1024
+    pad: 72
     kernel_size: 3
     stride: 1
-    dilation: 18
+    dilation: 72
   }
 }
 layer {
@@ -640,7 +676,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 1024
     pad: 0
     kernel_size: 1
     stride: 1
@@ -702,11 +738,11 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
-    pad: 24
+    num_output: 1024
+    pad: 96
     kernel_size: 3
     stride: 1
-    dilation: 24
+    dilation: 96
   }
 }
 layer {
@@ -738,7 +774,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 1024
     pad: 0
     kernel_size: 1
     stride: 1
@@ -799,10 +835,21 @@ layer {
   }
 }
 layer {
+  name: "label_shrink"
+  type: "Interp"
+  bottom: "label"
+  top: "label_shrink"
+  interp_param {
+    shrink_factor: 4
+    pad_beg: 0
+    pad_end: 0
+  }
+}
+layer {
   name: "loss"
   type: "SoftmaxWithLoss"
   bottom: "fc8"
-  bottom: "label"
+  bottom: "label_shrink"
   top: "loss"
   include {
     phase: TRAIN
@@ -815,7 +862,7 @@ layer {
   name: "accuracy"
   type: "SegAccuracy"
   bottom: "fc8"
-  bottom: "label"
+  bottom: "label_shrink"
   top: "accuracy"
   seg_accuracy_param {
     ignore_label: 255

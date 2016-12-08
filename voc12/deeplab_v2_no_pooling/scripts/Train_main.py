@@ -2,6 +2,7 @@
 
 import sys
 sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/deeplab-public-ver2/python/')
+sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/exper/')
 
 EXP = '/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12'
 NUM_LABELS = 21
@@ -26,7 +27,7 @@ os.environ['GLOG_log_dir'] = LOG_DIR
 
 LIST_DIR = os.path.join(EXP, 'list')
 TRAIN_SET = 'train_aug'
-MODEL = os.path.join(MODEL_DIR, 'save.caffemodel')
+MODEL = os.path.join(MODEL_DIR, 'init.caffemodel')
 
 print 'Training net {}/{}'.format(EXP, NET_ID)
 
@@ -48,7 +49,8 @@ create_solver(
     SOLVER_NAME,
     NET_NAME,
     os.path.join(MODEL_DIR, 'train'),
-    display=1
+    display=20,
+    snapshot=1000
 )
 
 import caffe
