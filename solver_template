@@ -5,7 +5,7 @@ power: {}
 base_lr: {}
 
 average_loss: 20
-display: 1
+display: {}
 max_iter: 20000
 momentum: {}
 weight_decay: {}
