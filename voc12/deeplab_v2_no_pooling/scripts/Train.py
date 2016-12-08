@@ -58,7 +58,8 @@ for i in xrange(100):
         os.path.join(MODEL_DIR, 'train'),
         base_lr = lr,
         momentum = momentum,
-        weight_decay = 0
+        weight_decay = 0,
+        display=1
     )
 
     print "Param: lr = {}, momentum = {}".format(lr, momentum) 

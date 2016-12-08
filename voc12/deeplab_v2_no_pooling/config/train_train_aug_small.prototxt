@@ -91,10 +91,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 2
+    pad: 3
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 3
   }
 }
 layer {
@@ -118,10 +118,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 1
+    pad: 2
     kernel_size: 3
     stride: 1
-    dilation: 1
+    dilation: 2
   }
 }
 layer {
@@ -145,10 +145,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 2
+    pad: 6
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 6
   }
 }
 layer {
@@ -172,10 +172,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 1
+    pad: 4
     kernel_size: 3
     stride: 1
-    dilation: 1
+    dilation: 4
   }
 }
 layer {
@@ -199,10 +199,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 1
+    pad: 4
     kernel_size: 3
     stride: 1
-    dilation: 1
+    dilation: 4
   }
 }
 layer {
@@ -226,10 +226,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 2
+    pad: 12
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 12
   }
 }
 layer {
@@ -253,10 +253,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 1
+    pad: 8
     kernel_size: 3
     stride: 1
-    dilation: 1
+    dilation: 8
   }
 }
 layer {
@@ -280,10 +280,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 1
+    pad: 8
     kernel_size: 3
     stride: 1
-    dilation: 1
+    dilation: 8
   }
 }
 layer {
@@ -293,21 +293,9 @@ layer {
   top: "conv4_3"
 }
 layer {
-  name: "pool4"
-  type: "Pooling"
-  bottom: "conv4_3"
-  top: "pool4"
-  pooling_param {
-    pool: MAX
-    kernel_size: 3
-    stride: 1
-    pad: 1
-  }
-}
-layer {
   name: "conv5_1"
   type: "Convolution"
-  bottom: "pool4"
+  bottom: "conv4_3"
   top: "conv5_1"
   param {
     lr_mult: 1
@@ -319,10 +307,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 2
+    pad: 24
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 24
   }
 }
 layer {
@@ -346,10 +334,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 2
+    pad: 16
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 16
   }
 }
 layer {
@@ -373,10 +361,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 2
+    pad: 16
     kernel_size: 3
     stride: 1
-    dilation: 2
+    dilation: 16
   }
 }
 layer {
@@ -386,21 +374,9 @@ layer {
   top: "conv5_3"
 }
 layer {
-  name: "pool5"
-  type: "Pooling"
-  bottom: "conv5_3"
-  top: "pool5"
-  pooling_param {
-    pool: MAX
-    kernel_size: 3
-    stride: 1
-    pad: 1
-  }
-}
-layer {
   name: "fc6_1"
   type: "Convolution"
-  bottom: "pool5"
+  bottom: "conv5_3"
   top: "fc6_1"
   param {
     lr_mult: 1
@@ -412,10 +388,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 6
+    pad: 112
     kernel_size: 3
     stride: 1
-    dilation: 6
+    dilation: 112
   }
 }
 layer {
@@ -498,7 +474,7 @@ layer {
 layer {
   name: "fc6_2"
   type: "Convolution"
-  bottom: "pool5"
+  bottom: "conv5_3"
   top: "fc6_2"
   param {
     lr_mult: 1
@@ -510,10 +486,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 12
+    pad: 208
     kernel_size: 3
     stride: 1
-    dilation: 12
+    dilation: 208
   }
 }
 layer {
@@ -596,7 +572,7 @@ layer {
 layer {
   name: "fc6_3"
   type: "Convolution"
-  bottom: "pool5"
+  bottom: "conv5_3"
   top: "fc6_3"
   param {
     lr_mult: 1
@@ -608,10 +584,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 18
+    pad: 304
     kernel_size: 3
     stride: 1
-    dilation: 18
+    dilation: 304
   }
 }
 layer {
@@ -694,7 +670,7 @@ layer {
 layer {
   name: "fc6_4"
   type: "Convolution"
-  bottom: "pool5"
+  bottom: "conv5_3"
   top: "fc6_4"
   param {
     lr_mult: 1
@@ -706,10 +682,10 @@ layer {
   }
   convolution_param {
     num_output: 64
-    pad: 24
+    pad: 400
     kernel_size: 3
     stride: 1
-    dilation: 24
+    dilation: 400
   }
 }
 layer {
