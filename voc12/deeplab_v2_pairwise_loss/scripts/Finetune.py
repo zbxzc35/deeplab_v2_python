@@ -12,7 +12,7 @@ DATA_ROOT = '/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012'
 ########### voc12 ###########
 NET_ID = 'deeplab_v2_pairwise_loss'
 import setproctitle
-setproctitle.setproctitle(NET_ID)
+setproctitle.setproctitle(NET_ID+'---finetune')
 DEV_ID = int(sys.argv[1])
 
 # Create dirs
@@ -27,7 +27,7 @@ os.environ['GLOG_log_dir'] = LOG_DIR
 
 LIST_DIR = os.path.join(EXP, 'list')
 TRAIN_SET = 'train_aug'
-MODEL = os.path.join(MODEL_DIR, 'init.caffemodel')
+MODEL = os.path.join(MODEL_DIR, 'finetune.caffemodel')
 
 print 'Training net {}/{}'.format(EXP, NET_ID)
 

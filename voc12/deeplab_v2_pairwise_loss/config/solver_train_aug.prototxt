@@ -5,9 +5,9 @@ power: 0.9
 base_lr: 0.001
 
 average_loss: 20
-display: 1
+display: 20
 max_iter: 20000
-momentum: 0.9
+momentum: 0.5
 weight_decay: 0.0005
 
 snapshot: 20000

@@ -4,9 +4,6 @@ layer {
   top: "data"
   top: "label"
   top: "data_dim"
-  include {
-    phase: TRAIN
-  }
   transform_param {
     mirror: true
     crop_size: 321
@@ -95,9 +92,6 @@ layer {
   bottom: "conv1_1"
   bottom: "conv1_2"
   top: "pairwise"
-  include {
-    phase: TRAIN
-  }
 }
 layer {
   name: "sample"
