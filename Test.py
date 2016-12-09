@@ -1,5 +1,9 @@
 # coding: utf-8
 
+"""
+    python Test.py [gpu_id] [exp_folder] [model_name] [feature_dir]
+"""
+
 import sys
 sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/deeplab-public-ver2/python/')
 
@@ -9,10 +13,10 @@ DATA_ROOT = '/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012'
 
 # Specify model name to train
 ########### voc12 ###########
-NET_ID = 'deeplab_v2_large_scoremap'
+DEV_ID = int(sys.argv[1])
+NET_ID = str(sys.argv[2])
 import setproctitle
 setproctitle.setproctitle(NET_ID)
-DEV_ID = int(sys.argv[1])
 
 # Create dirs
 import os
@@ -29,11 +33,11 @@ TEST_LIST = os.path.join(EXP, 'list', '{}.txt'.format(TEST_SET))
 with open(TEST_LIST) as f:
     TEST_ITER = len(f.readlines())
 
-MODEL = os.path.join(MODEL_DIR, 'test.caffemodel')
+MODEL = os.path.join(MODEL_DIR, '{}.caffemodel'.format(str(sys.argv[3])))
 
 print 'Testing net {}/{}'.format(EXP, NET_ID)
 
-FEATURE_DIR = os.path.join(EXP, 'features', NET_ID, TEST_SET, 'fc8')
+FEATURE_DIR = os.path.join(EXP, 'features', NET_ID, TEST_SET, str(sys.argv[4]))
 if not os.path.isdir(FEATURE_DIR):
     os.makedirs(FEATURE_DIR)
 
@@ -46,9 +50,9 @@ deeplab_vgg16(
     DATA_ROOT,
     TEST_LIST,
     NUM_LABELS,
-    1,
-    FEATURE_DIR+'/',
-    os.path.join(EXP, 'list', '{}_id.txt'.format(TEST_SET))
+    batch_size=1,
+    prefix=FEATURE_DIR+'/',
+    source_id=os.path.join(EXP, 'list', '{}_id.txt'.format(TEST_SET))
 )
 
 import caffe

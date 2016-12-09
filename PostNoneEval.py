@@ -1,9 +1,14 @@
 # coding: utf-8
 
+"""
+    python PostNoneEval.py [num_worker] [exp_folder] [feature_folder] [save_folder]
+"""
+
 import os
 from PIL import Image
 from matplotlib import pyplot as plt
 import numpy as np
+import sys
 
 debug = False
 
@@ -17,12 +22,12 @@ EXP = '/home/wuhuikai/Segmentation/Deeplab_v2/exper'
 post_folder = 'post_none'
 
 testset = 'val'
-output_mat_folder = os.path.join(EXP, 'voc12/features/deeplab_v2_large_scoremap/{}/fc8'.format(testset))
+output_mat_folder = os.path.join(EXP, 'voc12/features/{}/{}/{}'.format(str(sys.argv[2]), testset, str(sys.argv[3])))
 save_root_folder = os.path.join(output_mat_folder, post_folder)
 print 'Saving to %s' % save_root_folder
 
 seg_res_dir = os.path.join(save_root_folder, 'results/VOC2012')
-save_result_folder = os.path.join(seg_res_dir, 'Segmentation', 'comp6_{}_cls'.format(testset));
+save_result_folder = os.path.join(seg_res_dir, 'Segmentation', 'comp6_{}_cls'.format(testset), str(sys.argv[4]));
 if not os.path.isdir(save_result_folder):
     os.makedirs(save_result_folder)
 
@@ -36,7 +41,7 @@ import png
 annots = glob.glob(os.path.join(output_mat_folder, '*.mat'))
 total = len(annots)
 
-for idx, annot in enumerate(annots):
+def mat2png(idx, annot):
     if idx % 100 == 0:
         print 'processing %d (%d)...' % (idx, total)
     
@@ -56,10 +61,14 @@ for idx, annot in enumerate(annots):
     with open(os.path.join(save_result_folder, img_fn+'.png'), 'w') as f:
         png.Writer(size=(result.shape[1], result.shape[0]), palette = palette).write(f, result)  
 
+
+from joblib import Parallel, delayed
+Parallel(n_jobs=int(sys.argv[1]))(delayed(mat2png)(idx, annot) for idx, annot in enumerate(annots))
+
 from EvalSegResult import VOCevalseg
 VOCevalseg(
     class_num,
     os.path.join(seg_root, 'ImageSets/Segmentation/{}.txt'.format(testset)),
     gt_dir,
-    save_result_folder
+    save_result_folder 
 )

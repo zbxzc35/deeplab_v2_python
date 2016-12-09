@@ -40,6 +40,7 @@ def VOCevalseg(class_num, test_list, gt_path, res_path):
     num_missing_img = 0
     
     total = len(lines)
+    
     for idx, line in enumerate(lines):
         line = line.strip()
         if idx % 100 == 0:
