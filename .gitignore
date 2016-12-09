@@ -20,3 +20,9 @@
 
 # Log
 *.log
+
+# prototxt
+*.prototxt
+
+# ipynb
+*.ipynb
