@@ -76,7 +76,7 @@ def drop_out(bottom):
     source_id: ONLY for testing, file containing a list of testing image ids,
                e.g. "voc12/list/val_id.txt"
 """
-def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=10, prefix=None, source_id=None):
+def deeplab_vgg16(proto_path, train, data_root, source, num_labels, num = 3000, batch_size=10, prefix=None, source_id=None):
     # name: "${NET_ID}"
     
     # Data Layer
@@ -107,13 +107,13 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     # Pairwise Loss
     n.pairwise = L.Concat(
         n.data, 
-        n.relu1_1, 
-        n.relu1_2
+        n.conv1_1, 
+        n.conv1_2
     )
     n.sample, n.sample_index = L.RandomSample2D(
         n.pairwise,
         ntop=2,
-        num=2000,
+        num=num,
         include=dict(
             phase=0
         )
@@ -134,7 +134,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     n.pairwise_loss = L.EuclideanLoss(
         n.pairse_energy,
         n.pairwise_gt,
-        loss_weight=1.0/(2000*2000),
+        loss_weight=10 * 1.0/(num*num),
         include=dict(
             phase=0
         ),

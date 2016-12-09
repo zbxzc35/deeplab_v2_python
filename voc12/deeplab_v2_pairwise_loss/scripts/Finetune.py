@@ -48,7 +48,8 @@ SOLVER_NAME = os.path.join(CONFIG_DIR, 'solver_{}.prototxt'.format(TRAIN_SET))
 create_solver(
     SOLVER_NAME,
     NET_NAME,
-    os.path.join(MODEL_DIR, 'train')
+    os.path.join(MODEL_DIR, 'finetune'),
+    snapshot=1000
 )
 
 import caffe
