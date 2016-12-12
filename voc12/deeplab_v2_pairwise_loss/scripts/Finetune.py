@@ -33,6 +33,12 @@ print 'Training net {}/{}'.format(EXP, NET_ID)
 
 sys.path.insert(0, os.path.join(EXP, NET_ID, 'scripts'))
 
+
+
+import caffe
+caffe.set_device(DEV_ID)
+caffe.set_mode_gpu()
+
 from NetCreator import deeplab_vgg16
 NET_NAME = os.path.join(CONFIG_DIR, 'train_{}.prototxt'.format(TRAIN_SET))
 deeplab_vgg16(
@@ -40,7 +46,8 @@ deeplab_vgg16(
     True,
     DATA_ROOT,
     os.path.join(LIST_DIR, '{}.txt'.format(TRAIN_SET)),
-    NUM_LABELS
+    NUM_LABELS,
+    loss_weight=0.5
 )
 
 from SolverCreator import create_solver
@@ -49,12 +56,10 @@ create_solver(
     SOLVER_NAME,
     NET_NAME,
     os.path.join(MODEL_DIR, 'finetune'),
-    snapshot=1000
+    base_lr=1e-9,
+    momentum=0.9,
+    weight_decay=5e-8
 )
-
-import caffe
-caffe.set_device(DEV_ID)
-caffe.set_mode_gpu()
 
 solver = caffe.SGDSolver(SOLVER_NAME)
 solver.net.copy_from(MODEL)

@@ -76,7 +76,7 @@ def drop_out(bottom):
     source_id: ONLY for testing, file containing a list of testing image ids,
                e.g. "voc12/list/val_id.txt"
 """
-def deeplab_vgg16(proto_path, train, data_root, source, num_labels, num = 3000, batch_size=10, prefix=None, source_id=None):
+def deeplab_vgg16(proto_path, train, data_root, source, num_labels, num = 3000, batch_size=10, p_prefix=None, prefix=None, source_id=None, loss_weight=10):
     # name: "${NET_ID}"
     
     # Data Layer
@@ -134,7 +134,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, num = 3000, 
     n.pairwise_loss = L.EuclideanLoss(
         n.pairse_energy,
         n.pairwise_gt,
-        loss_weight=10 * 1.0/(num*num),
+        loss_weight=loss_weight * 1.0/(num*num),
         include=dict(
             phase=0
         ),
@@ -344,9 +344,9 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, num = 3000, 
             n.fc8,
             zoom_factor=8
         )
-        with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/test_proto_template') as f:
+        with open('test_proto_template') as f:
             template = f.read()
-        proto = str(n.to_proto()) + template % (prefix, source_id)
+        proto = str(n.to_proto()) + template % (p_prefix, source_id, prefix, source_id)
     
     with open(proto_path, 'w') as f:
         f.write(proto)

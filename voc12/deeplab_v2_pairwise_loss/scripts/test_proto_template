@@ -1,0 +1,35 @@
+layer {
+  name: "pairwise_mat"
+  type: "MatWrite"
+  bottom: "pairwise"
+  include {
+    phase: TEST
+  }
+  mat_write_param {
+    prefix: "%s"
+    source: "%s"
+    strip: 0
+    period: 1
+  }
+}
+
+layer {
+  name: "fc8_mat"
+  type: "MatWrite"
+  bottom: "fc8_interp"
+  include {
+    phase: TEST
+  }
+  mat_write_param {
+    prefix: "%s"
+    source: "%s"
+    strip: 0
+    period: 1
+  }
+}
+layer {
+  name: "silence"
+  type: "Silence"
+  bottom: "label"
+  bottom: "data_dim"
+}
