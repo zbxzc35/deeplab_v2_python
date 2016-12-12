@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import sys
-sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/deeplab-public-ver2/python/')
+sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/exper')
 
 EXP = '/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12'
 NUM_LABELS = 21
@@ -9,7 +9,7 @@ DATA_ROOT = '/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012'
 
 # Specify model name to train
 ########### voc12 ###########
-NET_ID = 'deeplab_v2_large_scoremap'
+NET_ID = 'deeplab_pyramid'
 import setproctitle
 setproctitle.setproctitle(NET_ID)
 DEV_ID = int(sys.argv[1])
@@ -47,7 +47,8 @@ SOLVER_NAME = os.path.join(CONFIG_DIR, 'solver_{}.prototxt'.format(TRAIN_SET))
 create_solver(
     SOLVER_NAME,
     NET_NAME,
-    os.path.join(MODEL_DIR, 'train')
+    os.path.join(MODEL_DIR, 'train'),
+    snapshot=2000
 )
 
 import caffe
@@ -56,4 +57,7 @@ caffe.set_mode_gpu()
 
 solver = caffe.SGDSolver(SOLVER_NAME)
 solver.net.copy_from(MODEL)
-solver.step(20000)
+
+STEP = 20
+for i in xrange(0, 30000, STEP):
+	solver.step(STEP)
