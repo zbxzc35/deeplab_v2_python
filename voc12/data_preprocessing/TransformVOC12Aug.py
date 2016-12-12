@@ -13,7 +13,7 @@ save_folder = '/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012/Se
 if not os.path.isdir(save_folder):
     os.makedirs(save_folder)
     
-colormap = map(lambda x: map(lambda xx: int(255 * xx), x), scipy.io.loadmat('pascal_seg_colormap.mat')['colormap'])
+colormap = map(lambda x: map(lambda xx: int(255 * xx), x), scipy.io.loadmat('/home/wuhuikai/Segmentation/Deeplab_v2/exper/pascal_seg_colormap.mat')['colormap'])
 
 annots = glob.glob(os.path.join(orig_folder, '*.mat'))
 total = len(annots)
