@@ -149,7 +149,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
         ntop=3,
         transform_param=dict(
             mirror=True if train else False,
-            crop_size=473 if train else 513,
+            crop_size=473,
             mean_value=[104.008, 116.669, 122.675]
         ),
         image_data_param=dict(
@@ -260,7 +260,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
         proto = str(n.to_proto()) + template
     else:
         n.fc8_interp = L.Interp(
-            n.fc8,
+            n.predict,
             zoom_factor=8
         )
         with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/test_proto_template') as f:
