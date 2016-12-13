@@ -136,13 +136,8 @@ def pyramid_pool(bottom, ks):
             e.g. "voc12/list/train_aug.txt"
     num_labels: class count to segment
     batch_size: training batch size
-    
-    prefix: ONLY for testing, folder for saving features,
-            e.g. "voc12/features/deeplab_v2_vgg/val/fc8/"
-    source_id: ONLY for testing, file containing a list of testing image ids,
-               e.g. "voc12/list/val_id.txt"
 """
-def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=10, prefix=None, source_id=None):
+def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=10):
     # Data Layer
     n = caffe.NetSpec()
     n.data, n.label, n.data_dim = L.ImageSegData(
@@ -295,9 +290,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
             n.predict,
             zoom_factor=8
         )
-        with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/test_proto_template') as f:
-            template = f.read()
-        proto = str(n.to_proto()) + template % (prefix, source_id)
+        proto = str(n.to_proto())
     
     with open(proto_path, 'w') as f:
         f.write(proto)
