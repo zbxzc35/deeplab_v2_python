@@ -26,7 +26,7 @@ os.environ['GLOG_log_dir'] = LOG_DIR
 
 LIST_DIR = os.path.join(EXP, 'list')
 TRAIN_SET = 'train_aug'
-MODEL = os.path.join(MODEL_DIR, 'init.caffemodel')
+MODEL = os.path.join(MODEL_DIR, 'pretrained.caffemodel')
 
 print 'Training net {}/{}'.format(EXP, NET_ID)
 
@@ -50,8 +50,8 @@ create_solver(
     os.path.join(MODEL_DIR, 'train'),
     snapshot=2000,
     base_lr=1e-3,
-    weight_decay=0.0005,
-    momentum=0.99
+    weight_decay=0.0001,
+    momentum=0.9
 )
 
 import caffe

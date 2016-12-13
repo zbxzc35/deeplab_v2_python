@@ -98,7 +98,7 @@ def conv(bottom, ks, pad):
         kernel_size=ks, 
         stride=1,
         pad=pad,
-        num_output=512, 
+        num_output=256, 
         weight_filler=dict(
             type='msra'
         ),
@@ -191,14 +191,46 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     n.conv5_3, n.relu5_3 = conv_relu(n.relu5_2, 512, pad=2, dilation=2)
     n.pool5 = max_pool(n.relu5_3, stride=1)
     
+    # ### hole = 6
+    # fc 6
+    n.fc6_1, n.relu6_1 = conv_relu(n.pool5, 1024, pad=6, dilation=6)
+    # fc 7
+    n.fc7_1, n.relu7_1 = conv_relu(n.relu6_1, 1024, ks=1, pad=0)
+    
+    # ### hole = 12
+    # fc 6
+    n.fc6_2, n.relu6_2 = conv_relu(n.pool5, 1024, pad=12, dilation=12)
+    # fc 7
+    n.fc7_2, n.relu7_2 = conv_relu(n.relu6_2, 1024, ks=1, pad=0)
+    
+    # ### hole = 18
+    # fc 6
+    n.fc6_3, n.relu6_3 = conv_relu(n.pool5, 1024, pad=18, dilation=18)
+    # fc 7
+    n.fc7_3, n.relu7_3 = conv_relu(n.relu6_3, 1024, ks=1, pad=0)
+
+    # ### hole = 24
+    # fc 6
+    n.fc6_4, n.relu6_4 = conv_relu(n.pool5, 1024, pad=24, dilation=24)
+    # fc 7
+    n.fc7_4, n.relu7_4 = conv_relu(n.relu6_4, 1024, ks=1, pad=0)
+
+    # ### SUM the four branches
+    n.fc8 = L.Eltwise(
+        n.relu7_1,
+        n.relu7_2,
+        n.relu7_3,
+        n.relu7_4, 
+        operation=P.Eltwise.SUM
+    )
     # ### Pyramid
-    n.pyramid_pool1 = pyramid_pool(n.pool5, 60)
-    n.pyramid_pool2 = pyramid_pool(n.pool5, 30)
-    n.pyramid_pool3 = pyramid_pool(n.pool5, 20)
-    n.pyramid_pool6 = pyramid_pool(n.pool5, 10)
+    n.pyramid_pool1 = pyramid_pool(n.fc8, 60)
+    n.pyramid_pool2 = pyramid_pool(n.fc8, 30)
+    n.pyramid_pool3 = pyramid_pool(n.fc8, 20)
+    n.pyramid_pool6 = pyramid_pool(n.fc8, 10)
 
     n.pyramid = L.Concat(
-        n.pool5,
+        n.fc8,
         n.pyramid_pool1,
         n.pyramid_pool2,
         n.pyramid_pool3,
