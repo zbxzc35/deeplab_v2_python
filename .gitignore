@@ -26,3 +26,6 @@
 
 # ipynb
 *.ipynb
+
+# local workspace
+TrainableModel
