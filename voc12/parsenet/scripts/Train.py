@@ -39,7 +39,8 @@ deeplab_vgg16(
     True,
     DATA_ROOT,
     os.path.join(LIST_DIR, '{}.txt'.format(TRAIN_SET)),
-    NUM_LABELS
+    NUM_LABELS,
+    batch_size=20
 )
 
 from SolverCreator import create_solver
@@ -48,10 +49,11 @@ create_solver(
     SOLVER_NAME,
     NET_NAME,
     os.path.join(MODEL_DIR, 'train'),
-    snapshot=2000,
+    snapshot=100,
     base_lr=1e-3,
-    weight_decay=0.0001,
-    momentum=0.9
+    weight_decay=0.0005,
+    momentum=0.9,
+    max_iter=4000
 )
 
 import caffe
@@ -62,5 +64,10 @@ solver = caffe.SGDSolver(SOLVER_NAME)
 solver.net.copy_from(MODEL)
 
 STEP = 20
-for i in xrange(0, 30000, STEP):
-	solver.step(STEP)
+from subprocess import call
+for i in xrange(0, 4000, STEP):
+    solver.step(STEP)
+    if i%100 == 0:
+        name = 'train_iter_{}'.format(i) if i !=0 else 'init'
+        call('python Test.py {} {} {} {}'.format(DEV_ID, NET_ID, name, 'train'), shell=True)
+        call('python Eval.py {} {} {} {}'.format(4, NET_ID, 'train', 'train'), shell=True)

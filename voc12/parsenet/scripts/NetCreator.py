@@ -45,8 +45,13 @@ def max_pool(bottom, ks=3, stride=2, pad=1):
             e.g. "voc12/list/train_aug.txt"
     num_labels: class count to segment
     batch_size: training batch size
+
+    prefix: ONLY for testing, folder for saving features,
+            e.g. "voc12/features/deeplab_v2_vgg/val/fc8/"
+    source_id: ONLY for testing, file containing a list of testing image ids,
+               e.g. "voc12/list/val_id.txt"
 """
-def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=20):
+def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=20, prefix=None, source_id=None):
     n = caffe.NetSpec()
 
     # Data Layer
@@ -157,7 +162,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=2
         proto = str(n.to_proto()) + template
     else:
         n.fc8_interp = L.Interp(
-            n.fc8,
+            n.score,
             zoom_factor=8
         )
         with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/test_proto_template') as f:
