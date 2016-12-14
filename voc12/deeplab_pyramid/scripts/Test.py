@@ -70,7 +70,7 @@ def TestAll(img_list, data_root, save_dir, proto_path, model_path, gpu_id, crop_
         
         img_prename = os.path.splitext(os.path.basename(img_name))[0]
         with open('{}/{}.pkl'.format(save_dir, img_prename), 'w') as f:
-            cPickle.dump(result, f)
+            cPickle.dump(result, f, cPickle.HIGHEST_PROTOCOL)
 
 
 """
@@ -103,6 +103,8 @@ MODEL = os.path.join(MODEL_DIR, '{}.caffemodel'.format(str(sys.argv[3])))
 FEATURE_DIR = os.path.join(EXP, 'features', NET_ID, TEST_SET, str(sys.argv[3]))
 if not os.path.isdir(FEATURE_DIR):
     os.makedirs(FEATURE_DIR)
+
+sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/deeplab_pyramid/scripts/TrainableModel')
     
 from NetCreator import deeplab_vgg16
 NET_NAME = os.path.join(CONFIG_DIR, 'test_{}.prototxt'.format(TEST_SET))

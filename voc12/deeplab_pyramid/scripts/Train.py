@@ -32,9 +32,9 @@ print 'Training net {}/{}'.format(EXP, NET_ID)
 
 sys.path.insert(0, os.path.join(EXP, NET_ID, 'scripts'))
 
-from NetCreator import deeplab_vgg16
+from NetCreator import deeplab_pyramid_refine
 NET_NAME = os.path.join(CONFIG_DIR, 'train_{}.prototxt'.format(TRAIN_SET))
-deeplab_vgg16(
+deeplab_pyramid_refine(
     NET_NAME,
     True,
     DATA_ROOT,
@@ -63,4 +63,5 @@ solver.net.copy_from(MODEL)
 
 STEP = 20
 for i in xrange(0, 30000, STEP):
-	solver.step(STEP)
+    pass
+    # solver.step(STEP)

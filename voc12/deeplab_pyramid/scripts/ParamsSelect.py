@@ -30,7 +30,7 @@ MODEL = os.path.join(MODEL_DIR, 'init.caffemodel')
 
 print 'Training net {}/{}'.format(EXP, NET_ID)
 
-sys.path.insert(0, os.path.join(EXP, NET_ID, 'scripts'))
+sys.path.insert(0, os.path.join(EXP, NET_ID, 'scripts/TrainableModel'))
 
 from NetCreator import deeplab_vgg16
 NET_NAME = os.path.join(CONFIG_DIR, 'train_{}.prototxt'.format(TRAIN_SET))
@@ -39,7 +39,8 @@ deeplab_vgg16(
     True,
     DATA_ROOT,
     os.path.join(LIST_DIR, '{}.txt'.format(TRAIN_SET)),
-    NUM_LABELS
+    NUM_LABELS,
+    batch_size=5
 )
 
 import caffe
