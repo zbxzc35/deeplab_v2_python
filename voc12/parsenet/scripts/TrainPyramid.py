@@ -32,7 +32,7 @@ print 'Training net {}/{}'.format(EXP, NET_ID)
 
 sys.path.insert(0, os.path.join(EXP, NET_ID, 'scripts'))
 
-from NetCreator import deeplab_vgg16
+from NetCreatorPyramid import deeplab_vgg16
 NET_NAME = os.path.join(CONFIG_DIR, 'train_{}.prototxt'.format(TRAIN_SET))
 deeplab_vgg16(
     NET_NAME,
@@ -48,12 +48,12 @@ SOLVER_NAME = os.path.join(CONFIG_DIR, 'solver_{}.prototxt'.format(TRAIN_SET))
 create_solver(
     SOLVER_NAME,
     NET_NAME,
-    os.path.join(MODEL_DIR, 'train'),
-    snapshot=1000,
-    base_lr=5e-3,
+    os.path.join(MODEL_DIR, 'train_pyramid'),
+    snapshot=100,
+    base_lr=1e-3,
     weight_decay=0.0005,
     momentum=0.9,
-    max_iter=12000
+    max_iter=4000
 )
 
 import caffe
