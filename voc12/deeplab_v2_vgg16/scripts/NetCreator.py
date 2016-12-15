@@ -140,7 +140,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     n.drop7_1 = drop_out(n.relu7_1)
     
     # fc 8
-    n.fc8_1 = L.Convolution(
+    n.fc8_voc12_1 = L.Convolution(
         n.drop7_1,
         num_output=num_labels,
         kernel_size=1,
@@ -174,7 +174,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     n.drop7_2 = drop_out(n.relu7_2)
     
     # fc 8
-    n.fc8_2 = L.Convolution(
+    n.fc8_voc12_2 = L.Convolution(
         n.drop7_2,
         num_output=num_labels,
         kernel_size=1,
@@ -208,7 +208,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     n.drop7_3 = drop_out(n.relu7_3)
     
     # fc 8
-    n.fc8_3 = L.Convolution(
+    n.fc8_voc12_3 = L.Convolution(
         n.drop7_3,
         num_output=num_labels,
         kernel_size=1,
@@ -242,7 +242,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     n.drop7_4 = drop_out(n.relu7_4)
     
     # fc 8
-    n.fc8_4 = L.Convolution(
+    n.fc8_voc12_4 = L.Convolution(
         n.drop7_4,
         num_output=num_labels,
         kernel_size=1,
@@ -267,11 +267,11 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
     )
 
     # ### SUM the four branches
-    n.fc8 = L.Eltwise(
-        n.fc8_1,
-        n.fc8_2,
-        n.fc8_3,
-        n.fc8_4, 
+    n.fc8_voc12 = L.Eltwise(
+        n.fc8_voc12_1,
+        n.fc8_voc12_2,
+        n.fc8_voc12_3,
+        n.fc8_voc12_4, 
         operation=P.Eltwise.SUM
     )
     
@@ -287,7 +287,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
 
         # Loss
         n.loss = L.SoftmaxWithLoss(
-            n.fc8, 
+            n.fc8_voc12, 
             n.label_shrink,
             include=dict(
                 phase=0
@@ -299,7 +299,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
 
         # Accuracy
         n.accuracy = L.SegAccuracy(
-            n.fc8, 
+            n.fc8_voc12, 
             n.label_shrink,
             ignore_label=255
         )
@@ -308,7 +308,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
         proto = str(n.to_proto()) + template
     else:
         n.fc8_interp = L.Interp(
-            n.fc8,
+            n.fc8_voc12,
             zoom_factor=8
         )
         with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/test_proto_template') as f:
