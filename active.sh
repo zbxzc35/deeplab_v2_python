@@ -1,5 +1,5 @@
-export LD_LIBRARY_PATH_TEMP=$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PYTHONPATH_TEMP=$PYTHONPATH
+export PYTHONPATH=/home/wuhuikai/Segmentation/Deeplab_v2/PSPNet/python:$PYTHONPATH
 
 export PROMPT_TEMP=$PROMPT
-export PROMPT="%{$reset_color%}(deeplab_v2) "$PROMPT
+export PROMPT="%{$reset_color%}(PSPnet) "$PROMPT
