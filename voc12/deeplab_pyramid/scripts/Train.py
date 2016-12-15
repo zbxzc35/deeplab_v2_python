@@ -26,7 +26,7 @@ os.environ['GLOG_log_dir'] = LOG_DIR
 
 LIST_DIR = os.path.join(EXP, 'list')
 TRAIN_SET = 'train_aug'
-MODEL = os.path.join(MODEL_DIR, 'pretrained.caffemodel')
+MODEL = os.path.join(MODEL_DIR, 'vgg.caffemodel')
 
 print 'Training net {}/{}'.format(EXP, NET_ID)
 
@@ -39,7 +39,8 @@ deeplab_pyramid_refine(
     True,
     DATA_ROOT,
     os.path.join(LIST_DIR, '{}.txt'.format(TRAIN_SET)),
-    NUM_LABELS
+    NUM_LABELS,
+    batch_size=10
 )
 
 from SolverCreator import create_solver
@@ -48,10 +49,11 @@ create_solver(
     SOLVER_NAME,
     NET_NAME,
     os.path.join(MODEL_DIR, 'train'),
-    snapshot=2000,
+    snapshot=1000,
     base_lr=1e-3,
-    weight_decay=0.0001,
-    momentum=0.9
+    weight_decay=0.0005,
+    momentum=0.9,
+    max_iter=16000
 )
 
 import caffe
@@ -62,6 +64,5 @@ solver = caffe.SGDSolver(SOLVER_NAME)
 solver.net.copy_from(MODEL)
 
 STEP = 20
-for i in xrange(0, 30000, STEP):
-    pass
-    # solver.step(STEP)
+for i in xrange(0, 16000, STEP):
+    solver.step(STEP)

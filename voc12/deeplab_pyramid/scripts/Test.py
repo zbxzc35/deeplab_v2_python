@@ -63,7 +63,7 @@ def TestAll(img_list, data_root, save_dir, proto_path, model_path, gpu_id, crop_
             im_pad = np.transpose(padding(im_block, crop_size), (2, 0, 1))
             net.blobs['data'].data[...] = im_pad
             net.forward(start='conv1_1')
-            out = unpadding(im_block, net.blobs['fc8_interp'].data[0], crop_size)
+            out = unpadding(im_block, net.blobs['predict_large'].data[0], crop_size)
             results.append(out)
         
         result = combine(results, crop_size, im)
@@ -104,11 +104,9 @@ FEATURE_DIR = os.path.join(EXP, 'features', NET_ID, TEST_SET, str(sys.argv[3]))
 if not os.path.isdir(FEATURE_DIR):
     os.makedirs(FEATURE_DIR)
 
-sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12/deeplab_pyramid/scripts/TrainableModel')
-    
-from NetCreator import deeplab_vgg16
+from NetCreator import deeplab_pyramid_refine
 NET_NAME = os.path.join(CONFIG_DIR, 'test_{}.prototxt'.format(TEST_SET))
-deeplab_vgg16(
+deeplab_pyramid_refine(
     NET_NAME,
     False,
     DATA_ROOT,
@@ -117,4 +115,4 @@ deeplab_vgg16(
     batch_size=1
 )
 
-TestAll(TEST_IMG, DATA_ROOT, FEATURE_DIR, NET_NAME, MODEL, DEV_ID)
+TestAll(TEST_IMG, DATA_ROOT, FEATURE_DIR, NET_NAME, MODEL, DEV_ID, 480)
