@@ -49,11 +49,11 @@ create_solver(
     SOLVER_NAME,
     NET_NAME,
     os.path.join(MODEL_DIR, 'train_pyramid'),
-    snapshot=100,
+    snapshot=1000,
     base_lr=1e-3,
     weight_decay=0.0005,
     momentum=0.9,
-    max_iter=4000
+    max_iter=12000
 )
 
 import caffe
@@ -65,7 +65,7 @@ solver.net.copy_from(MODEL)
 
 STEP = 20
 from subprocess import call
-for i in xrange(0, 4000, STEP):
+for i in xrange(0, 12000, STEP):
     solver.step(STEP)
     """
     if i%(STEP*100) == 0:

@@ -50,7 +50,7 @@ create_solver(
     NET_NAME,
     os.path.join(MODEL_DIR, 'train'),
     snapshot=1000,
-    base_lr=5e-3,
+    base_lr=1e-3,
     weight_decay=0.0005,
     momentum=0.9,
     max_iter=12000
@@ -65,7 +65,7 @@ solver.net.copy_from(MODEL)
 
 STEP = 20
 from subprocess import call
-for i in xrange(0, 4000, STEP):
+for i in xrange(0, 12000, STEP):
     solver.step(STEP)
     """
     if i%(STEP*100) == 0:
