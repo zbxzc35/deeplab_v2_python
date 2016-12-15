@@ -6,7 +6,7 @@ base_lr: {}
 
 average_loss: 20
 display: {}
-max_iter: 20000
+max_iter: {}
 momentum: {}
 weight_decay: {}
 

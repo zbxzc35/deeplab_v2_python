@@ -5,7 +5,6 @@
 """
 
 import sys
-sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/deeplab-public-ver2/python/')
 
 EXP = '/home/wuhuikai/Segmentation/Deeplab_v2/exper/voc12'
 NUM_LABELS = 21
