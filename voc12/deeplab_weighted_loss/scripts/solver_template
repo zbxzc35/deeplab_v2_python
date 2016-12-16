@@ -1,0 +1,16 @@
+train_net: "{}"
+
+lr_policy: "poly"
+power: {}
+base_lr: {}
+
+average_loss: 20
+display: {}
+iter_size: {}
+max_iter: {}
+momentum: {}
+weight_decay: {}
+
+snapshot: {}
+snapshot_prefix: "{}"
+solver_mode: GPU
