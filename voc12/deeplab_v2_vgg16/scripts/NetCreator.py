@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import sys
-sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/deeplab-public-ver2/python/')
 
 import caffe
 from caffe import layers as L, params as P
@@ -145,8 +144,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
         num_output=num_labels,
         kernel_size=1,
         weight_filler=dict(
-            type='gaussian',
-            std=0.01
+            type='xavier'
         ),
         bias_filler=dict(
             type='constant',
@@ -179,8 +177,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
         num_output=num_labels,
         kernel_size=1,
         weight_filler=dict(
-            type='gaussian',
-            std=0.01
+            type='xavier'
         ),
         bias_filler=dict(
             type='constant',
@@ -213,8 +210,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
         num_output=num_labels,
         kernel_size=1,
         weight_filler=dict(
-            type='gaussian',
-            std=0.01
+            type='xavier'
         ),
         bias_filler=dict(
             type='constant',
@@ -247,8 +243,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
         num_output=num_labels,
         kernel_size=1,
         weight_filler=dict(
-            type='gaussian',
-            std=0.01
+            type='xavier'
         ),
         bias_filler=dict(
             type='constant',
@@ -303,7 +298,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
             n.label_shrink,
             ignore_label=255
         )
-        with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/train_proto_template') as f:
+        with open('train_proto_template') as f:
             template = f.read()
         proto = str(n.to_proto()) + template
     else:
@@ -311,7 +306,7 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
             n.fc8_voc12,
             zoom_factor=8
         )
-        with open('/home/wuhuikai/Segmentation/Deeplab_v2/exper/test_proto_template') as f:
+        with open('test_proto_template') as f:
             template = f.read()
         proto = str(n.to_proto()) + template % (prefix, source_id)
     

@@ -8,7 +8,7 @@ DATA_ROOT = '/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012'
 
 # Specify model name to train
 ########### voc12 ###########
-NET_ID = 'deeplab_v2_large_scoremap'
+NET_ID = 'deeplab_v2_vgg16'
 import setproctitle
 setproctitle.setproctitle(NET_ID)
 DEV_ID = int(sys.argv[1])
@@ -38,15 +38,20 @@ deeplab_vgg16(
     True,
     DATA_ROOT,
     os.path.join(LIST_DIR, '{}.txt'.format(TRAIN_SET)),
-    NUM_LABELS
+    NUM_LABELS,
+    batch_size=20
 )
+
+MAX_ITER = 30000
+sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/exper')
 
 from SolverCreator import create_solver
 SOLVER_NAME = os.path.join(CONFIG_DIR, 'solver_{}.prototxt'.format(TRAIN_SET))
 create_solver(
     SOLVER_NAME,
     NET_NAME,
-    os.path.join(MODEL_DIR, 'train')
+    os.path.join(MODEL_DIR, 'train'),
+    max_iter=MAX_ITER
 )
 
 import caffe
@@ -55,4 +60,6 @@ caffe.set_mode_gpu()
 
 solver = caffe.SGDSolver(SOLVER_NAME)
 solver.net.copy_from(MODEL)
-solver.step(20000)
+
+for _ in xrange(MAX_ITER):
+    solver.step(1)
