@@ -26,3 +26,6 @@
 
 # ipynb
 *.ipynb
+
+# *.png
+*.png
