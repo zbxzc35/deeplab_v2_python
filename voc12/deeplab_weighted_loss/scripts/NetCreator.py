@@ -4,7 +4,6 @@ import sys
 
 import caffe
 from caffe import layers as L, params as P
-from caffe.coord_map import crop
 
 # VGG 16-layer network convolutional finetuning
 # Network modified to have smaller receptive field (128 pixels)
@@ -70,13 +69,8 @@ def drop_out(bottom):
             e.g. "voc12/list/train_aug.txt"
     num_labels: class count to segment
     batch_size: training batch size
-    
-    prefix: ONLY for testing, folder for saving features,
-            e.g. "voc12/features/deeplab_v2_vgg/val/fc8/"
-    source_id: ONLY for testing, file containing a list of testing image ids,
-               e.g. "voc12/list/val_id.txt"
 """
-def deeplab_vgg16(proto_path, train, data_root, source, num_labels, prefix=None, source_id=None):
+def deeplab_vgg16(proto_path, train, data_root, source, num_labels):
     # name: "${NET_ID}"
     
     # Data Layer
@@ -285,13 +279,13 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, prefix=None,
             )
         ]
     )
-    n.fc8_interp = L.Crop(n.up_fc8_voc12, n.data)
+    n.score = L.Crop(n.up_fc8_voc12, n.data)
    
     # #################
     if train:
         # Loss
         n.loss = L.SoftmaxWithLoss(
-            n.fc8_interp, 
+            n.score, 
             n.label,
             include=dict(
                 phase=0
@@ -301,12 +295,6 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, prefix=None,
                 ignore_label=255
             )
         )
-
-        proto = str(n.to_proto())
-    else:
-        with open('test_proto_template') as f:
-            template = f.read()
-        proto = str(n.to_proto()) + template % (prefix, source_id)
-    
+        
     with open(proto_path, 'w') as f:
-        f.write(proto)
+        f.write(str(n.to_proto()))
