@@ -41,15 +41,16 @@ deeplab_vgg16(
     NUM_LABELS
 )
 
-MAX_ITER = 20000
+MAX_ITER = 30000
 from SolverCreator import create_solver
 SOLVER_NAME = os.path.join(CONFIG_DIR, 'solver_{}.prototxt'.format(TRAIN_SET))
 create_solver(
     SOLVER_NAME,
     NET_NAME,
-    os.path.join(MODEL_DIR, 'train'),
+    os.path.join(MODEL_DIR, 'train_long'),
     max_iter=MAX_ITER,
-    snapshot=2000
+    snapshot=2000,
+    iter_size=30
 )
 
 import caffe
