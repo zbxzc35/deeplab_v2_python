@@ -70,7 +70,7 @@ def drop_out(bottom):
     num_labels: class count to segment
     batch_size: training batch size
 """
-def deeplab_vgg16(proto_path, train, data_root, source, num_labels):
+def deeplab_vgg16(proto_path, train, data_root, source, num_labels, beta=0.99):
     # name: "${NET_ID}"
     
     # Data Layer
@@ -79,7 +79,8 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels):
         root_folder=data_root,
         source=source,
         mean=(104.00699, 116.66877, 122.67892),
-        shuffle=True if train else False
+        shuffle=True if train else False,
+        beta=beta
     )
     n.data, n.label, n.weight = L.Python(
         module='data_layers',
