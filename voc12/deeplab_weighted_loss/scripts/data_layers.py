@@ -116,6 +116,7 @@ class VOCSegDataWeightsLayer(caffe.Layer):
         self.source = params['source']
         self.mean = np.array(params['mean'])
         self.shuffle = params.get('shuffle', True)
+        self.beta = params.get('beta', 0.99)
 
         # two tops: data and label
         if len(top) != 3:
@@ -164,8 +165,8 @@ class VOCSegDataWeightsLayer(caffe.Layer):
         diff = np.abs(top[2].diff)
         min_diff, max_diff = np.min(diff), np.max(diff)
         diff = (diff - min_diff) / (max_diff - min_diff + 1e-5)
-        self.weight = 0.99*self.weight + 0.01*diff
-        scipy.io.savemat(self.root+self.weight_path, {'data': top[2].diff})
+        self.weight = self.beta*self.weight + (1-self.beta)*diff
+        scipy.io.savemat(self.root+self.weight_path, {'data': self.weight})
 
     def load_image(self, idx):
         """
