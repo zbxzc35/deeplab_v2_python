@@ -10,7 +10,7 @@ DATA_ROOT = '/home/wuhuikai/Segmentation/Benchmark/Pascal/VOCdevkit/VOC2012'
 ########### voc12 ###########
 NET_ID = 'deeplab_weighted_loss'
 import setproctitle
-setproctitle.setproctitle(NET_ID+'-cut')
+setproctitle.setproctitle(NET_ID+'-final')
 DEV_ID = int(sys.argv[1])
 
 # Create dirs
@@ -25,7 +25,7 @@ os.environ['GLOG_log_dir'] = LOG_DIR
 
 LIST_DIR = os.path.join(EXP, 'list')
 TRAIN_SET = 'train_aug'
-MODEL = os.path.join(MODEL_DIR, 'save.caffemodel')
+MODEL = os.path.join(MODEL_DIR, 'init.caffemodel')
 
 print 'Training net {}/{}'.format(EXP, NET_ID)
 
@@ -37,23 +37,21 @@ deeplab_vgg16(
     NET_NAME,
     True,
     DATA_ROOT,
-    os.path.join(LIST_DIR, '{}_weights.txt'.format(TRAIN_SET)),
+    os.path.join(LIST_DIR, '{}_weights_final.txt'.format(TRAIN_SET)),
     NUM_LABELS,
-    finetune=True,
     beta=0.9
 )
 
-MAX_ITER = 6000
+MAX_ITER = 20000
 from SolverCreator import create_solver
 SOLVER_NAME = os.path.join(CONFIG_DIR, 'solver_{}.prototxt'.format(TRAIN_SET))
 create_solver(
     SOLVER_NAME,
     NET_NAME,
-    os.path.join(MODEL_DIR, 'train_weights_cut'),
+    os.path.join(MODEL_DIR, 'train_weights_final'),
     max_iter=MAX_ITER,
     snapshot=2000,
-    iter_size=8,
-    r_type='L1'
+    iter_size=8
 )
 
 import caffe

@@ -70,7 +70,7 @@ def drop_out(bottom):
     num_labels: class count to segment
     batch_size: training batch size
 """
-def deeplab_vgg16(proto_path, train, data_root, source, num_labels, beta=0.99):
+def deeplab_vgg16(proto_path, train, data_root, source, num_labels, finetune=False, beta=0.99):
     # name: "${NET_ID}"
     
     # Data Layer
@@ -148,11 +148,11 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, beta=0.99):
         ),
         param=[
             dict(
-                lr_mult=10, 
+                lr_mult=1 if finetune else 10, 
                 decay_mult=1
             ), 
             dict(
-                lr_mult=20, 
+                lr_mult=2 if finetune else 20, 
                 decay_mult=0
             )
         ]
@@ -181,11 +181,11 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, beta=0.99):
         ),
         param=[
             dict(
-                lr_mult=10, 
+                lr_mult=1 if finetune else 10, 
                 decay_mult=1
             ), 
             dict(
-                lr_mult=20, 
+                lr_mult=2 if finetune else 20, 
                 decay_mult=0
             )
         ]
@@ -214,11 +214,11 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, beta=0.99):
         ),
         param=[
             dict(
-                lr_mult=10, 
+                lr_mult=1 if finetune else 10, 
                 decay_mult=1
             ), 
             dict(
-                lr_mult=20, 
+                lr_mult=2 if finetune else 20, 
                 decay_mult=0
             )
         ]
@@ -247,11 +247,11 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, beta=0.99):
         ),
         param=[
             dict(
-                lr_mult=10, 
+                lr_mult=1 if finetune else 10, 
                 decay_mult=1
             ), 
             dict(
-                lr_mult=20, 
+                lr_mult=2 if finetune else 20, 
                 decay_mult=0
             )
         ]
