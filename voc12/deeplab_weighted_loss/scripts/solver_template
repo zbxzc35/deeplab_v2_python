@@ -13,4 +13,7 @@ weight_decay: {}
 
 snapshot: {}
 snapshot_prefix: "{}"
+
+regularization_type: "{}"
+
 solver_mode: GPU
