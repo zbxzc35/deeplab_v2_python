@@ -39,7 +39,7 @@ deeplab_vgg16(
     DATA_ROOT,
     os.path.join(LIST_DIR, '{}_weights_final.txt'.format(TRAIN_SET)),
     NUM_LABELS,
-    beta=0.9
+    beta=0.99
 )
 
 MAX_ITER = 20000
