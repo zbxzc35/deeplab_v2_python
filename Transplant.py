@@ -1,5 +1,4 @@
 import sys
-sys.path.insert(0, '/home/wuhuikai/Segmentation/Deeplab_v2/deeplab-public-ver2/python/')
 
 import caffe
 import numpy as np

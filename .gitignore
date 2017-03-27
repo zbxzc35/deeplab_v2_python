@@ -27,5 +27,5 @@
 # ipynb
 *.ipynb
 
-# local workspace
-TrainableModel
+# *.png
+*.png

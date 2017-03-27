@@ -12,3 +12,9 @@ layer {
     period: 1
   }
 }
+layer {
+  name: "silence"
+  type: "Silence"
+  bottom: "label"
+  bottom: "data_dim"
+}

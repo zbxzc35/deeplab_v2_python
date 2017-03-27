@@ -69,36 +69,25 @@ def drop_out(bottom):
             e.g. "voc12/list/train_aug.txt"
     num_labels: class count to segment
     batch_size: training batch size
-    
-    prefix: ONLY for testing, folder for saving features,
-            e.g. "voc12/features/deeplab_v2_vgg/val/fc8/"
-    source_id: ONLY for testing, file containing a list of testing image ids,
-               e.g. "voc12/list/val_id.txt"
 """
-def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=10, prefix=None, source_id=None):
+def deeplab_vgg16(proto_path, train, data_root, source, num_labels):
     # name: "${NET_ID}"
     
     # Data Layer
     n = caffe.NetSpec()
-    n.data, n.label, n.data_dim = L.ImageSegData(
-        ntop=3,
-        include=dict(
-            phase=0 if train else 1
-        ),
-        transform_param=dict(
-            mirror=True if train else False,
-            crop_size=321 if train else 513,
-            mean_value=[104.008, 116.669, 122.675]
-        ),
-        image_data_param=dict(
-            root_folder=data_root,
-            source=source,
-            batch_size=batch_size,
-            shuffle=True if train else False,
-            label_type=P.ImageData.PIXEL if train else P.ImageData.NONE
-        )
+    pydata_params = dict(
+        root_folder=data_root,
+        source=source,
+        mean=(104.00699, 116.66877, 122.67892),
+        shuffle=True if train else False
     )
-    
+    n.data, n.label = L.Python(
+        module='data_layers',
+        layer='VOCSegDataLayer',
+        ntop=2, 
+        param_str=str(pydata_params)
+    )
+
     # ###################### DeepLab ####################
     
     # Pool 1
@@ -270,45 +259,42 @@ def deeplab_vgg16(proto_path, train, data_root, source, num_labels, batch_size=1
         operation=P.Eltwise.SUM
     )
     
+    n.up_fc8_voc12 = L.Deconvolution(
+        n.fc8_voc12,
+        convolution_param=dict(
+            num_output=num_labels,
+            kernel_size=16,
+            stride=8,
+            pad=4,
+            group=num_labels
+        ),
+        param=[
+            dict(
+                lr_mult=1, 
+                decay_mult=1
+            ), 
+            dict(
+                lr_mult=2, 
+                decay_mult=0
+            )
+        ]
+    )
+    n.score = L.Crop(n.up_fc8_voc12, n.data)
+   
     # #################
     if train:
-        # Shrink Label
-        n.label_shrink = L.Interp(
-            n.label,
-            shrink_factor=8,
-            pad_beg=0,
-            pad_end=0
-        )
-
         # Loss
         n.loss = L.SoftmaxWithLoss(
-            n.fc8_voc12, 
-            n.label_shrink,
+            n.score, 
+            n.label,
             include=dict(
                 phase=0
             ),
             loss_param=dict(
+                normalize=False,
                 ignore_label=255
             )
         )
-
-        # Accuracy
-        n.accuracy = L.SegAccuracy(
-            n.fc8_voc12, 
-            n.label_shrink,
-            ignore_label=255
-        )
-        with open('train_proto_template') as f:
-            template = f.read()
-        proto = str(n.to_proto()) + template
-    else:
-        n.fc8_interp = L.Interp(
-            n.fc8_voc12,
-            zoom_factor=8
-        )
-        with open('test_proto_template') as f:
-            template = f.read()
-        proto = str(n.to_proto()) + template % (prefix, source_id)
-    
+        
     with open(proto_path, 'w') as f:
-        f.write(proto)
+        f.write(str(n.to_proto()))
