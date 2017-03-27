@@ -6,14 +6,10 @@ base_lr: {}
 
 average_loss: 20
 display: {}
-iter_size: {}
 max_iter: {}
 momentum: {}
 weight_decay: {}
 
 snapshot: {}
 snapshot_prefix: "{}"
-
-regularization_type: "{}"
-
 solver_mode: GPU
