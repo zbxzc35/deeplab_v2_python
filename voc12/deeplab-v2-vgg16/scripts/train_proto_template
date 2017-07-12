@@ -1,0 +1,5 @@
+layer {
+  name: "silence"
+  type: "Silence"
+  bottom: "data_dim"
+}
